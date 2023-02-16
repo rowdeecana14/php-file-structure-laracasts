@@ -39,11 +39,13 @@ function base_path($path)
     return BASE_PATH . $path;
 }
 
-function view($path, $attributes = [])
-{
-    extract($attributes);
+function base_url($path) {
+    $config = require base_path('config.php');
+    return $config['HOST'] . $config['BASE_FOLDER'] . $path;
+}
 
-    require base_path('views/' . $path . '.view.php');
+function response() {
+    return new Response();
 }
 
 function redirect($path)

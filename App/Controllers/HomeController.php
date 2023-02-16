@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Controllers;
+use Core\Status;
 
 class HomeController {
-	public function index() {
+	
+	public static function index() {
 		$data =  [
 			'heading' => 'Home',
 		];
-		return view("index", $data);
+
+		// return response()->json(Status::OK, $data);
+		return response()->view('index', $data);
 	}
 }

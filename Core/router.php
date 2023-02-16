@@ -4,8 +4,18 @@ namespace Core;
 
 class Router
 {
-    protected $routes = [];
+    protected array $routes = [];
+    protected string $uri = "";
+    protected string $method = "";
 
+    public function __construct()
+    {
+		$config = require base_path('config.php');
+        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $this->uri = $this->getUri(str_replace($config['BASE_FOLDER'], "", $uri));
+        $this->method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+    }
+    
     public function add($method, $uri, $controller, $function)
     {
         $this->routes[] = [
@@ -15,7 +25,6 @@ class Router
             'method' => $method
         ];
     }
-
 
     public function getUri($uri) {
         if(strlen($uri) > 0) {
@@ -50,25 +59,21 @@ class Router
         $this->add('PATCH', $uri, $controller, $function);
     }
 
-    public function route($uri, $method)
+    public function dispatch()
     {
         $match = false;
         $params = [];
-        $uri = $this->getUri($uri);
 
         foreach ($this->routes as $route) {
             $regex =  $this->regex($route['uri']) ;
 
-            if (preg_match($regex, $uri, $matches))  {
+            if (preg_match($regex, $this->uri, $matches))  {
                 $params = array_intersect_key(
                     $matches,
                     array_flip(array_filter(array_keys($matches), 'is_string'))
                 );
 
-                // echo $route['method']. " = route['method'] "."<br>";
-                // echo $method. ' = method'."<br>";
-
-                if ($route['method'] === strtoupper($method)) {
+                if ($route['method'] === strtoupper($this->method)) {
                     $match = true;
 
                     break;

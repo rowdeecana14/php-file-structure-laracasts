@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 class ContactController {
-	public function index() {
+	public static function index() {
 		$data =  [
 			'heading' => 'Contact Us',
 		];
-		return view("contact", $data);
+		return response()->view("contact", $data);
 	}
 }

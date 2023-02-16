@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 class AboutController {
-	public function index() {
+	public static function index() {
 		$data =  [
 			'heading' => 'About Us',
 		];
-		return view("about", $data);
+		return response()->view("about", $data);
 	}
 }

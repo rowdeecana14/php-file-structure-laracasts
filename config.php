@@ -8,5 +8,6 @@ return [
         'charset' => 'utf8mb4'
     ],
 
-    //
+    "HOST" => "http://localhost",
+    "BASE_FOLDER" => "/php-file-structure-laracasts/public"
 ];
